@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloudfirestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Validation helper for Site documents
+    function isValidSite(data) {
+      return data.id is string && data.id.size() <= 128
+          && data.slug is string && data.slug.size() <= 100
+          && data.title is string && data.title.size() <= 100
+          && data.tagline is string && data.tagline.size() <= 200
+          && data.accentColor is string && data.accentColor.size() <= 32
+          && data.bannerGradient is string && data.bannerGradient.size() <= 100
+          && data.categories is list && data.categories.size() <= 50
+          && data.contractors is list && data.contractors.size() <= 500
+          && data.projectRequests is list && data.projectRequests.size() <= 1000;
+    }
+
+    // Rules for hosted sites
+    match /sites/{siteId} {
+      // Public read access is required so anyone can view directories and submit requests
+      allow read: if true;
+      
+      // Public write access for administrators to create/edit sites and visitors to submit leads
+      allow create, update: if isValidSite(incoming());
+      allow delete: if true;
+    }
+  }
+}
