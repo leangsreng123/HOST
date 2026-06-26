@@ -1,6 +1,0 @@
-{
-  "name": "WP-SmartBuild Host",
-  "description": "A WordPress-like hosting and visual builder platform for contractor directories and project request forms.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
