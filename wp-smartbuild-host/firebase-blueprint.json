@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "Contractor": {
+      "title": "Contractor",
+      "description": "A contractor profile listed in the directory",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier" },
+        "name": { "type": "string", "description": "Full name of the contractor" },
+        "specialty": { "type": "string", "description": "Specialty field" },
+        "experience": { "type": "number", "description": "Years of experience" },
+        "rating": { "type": "number", "description": "Average rating" },
+        "reviewsCount": { "type": "number", "description": "Total number of reviews" },
+        "location": { "type": "string", "description": "Primary service location" },
+        "priceRange": { "type": "string", "description": "Price tier indicators" },
+        "avatarLetters": { "type": "string", "description": "Two letter initials" },
+        "avatarColor": { "type": "string", "description": "Tailwind color class name" }
+      },
+      "required": ["id", "name", "specialty", "location"]
+    },
+    "ProjectRequest": {
+      "title": "ProjectRequest",
+      "description": "A lead request submitted by a visitor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier" },
+        "title": { "type": "string", "description": "Title of the project" },
+        "description": { "type": "string", "description": "Detailed description of the requirement" },
+        "location": { "type": "string", "description": "Project location" },
+        "budgetRange": { "type": "string", "description": "Expected budget range" },
+        "timeline": { "type": "string", "description": "Expected completion timeframe" },
+        "images": { "type": "array", "description": "List of reference image URLs" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "completed"], "description": "Current status" }
+      },
+      "required": ["id", "title", "description", "location", "createdAt", "status"]
+    },
+    "Site": {
+      "title": "Site",
+      "description": "A hosted WordPress-style constructor directory site",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique ID of the site" },
+        "slug": { "type": "string", "description": "URL slug of the site" },
+        "title": { "type": "string", "description": "Title of the site" },
+        "tagline": { "type": "string", "description": "Tagline of the site" },
+        "accentColor": { "type": "string", "description": "Theme accent color key" },
+        "bannerGradient": { "type": "string", "description": "Banner gradient styling classes" },
+        "categories": { "type": "array", "description": "List of contractor categories served" },
+        "contractors": { "type": "array", "description": "List of active contractors in this site" },
+        "projectRequests": { "type": "array", "description": "List of visitor requests submitted" }
+      },
+      "required": ["id", "slug", "title", "tagline", "accentColor"]
+    }
+  },
+  "firestore": {
+    "sites/{siteId}": {
+      "schema": "Site",
+      "description": "The active hosted constructor directory sites"
+    }
+  }
+}
